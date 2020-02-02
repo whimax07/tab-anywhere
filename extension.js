@@ -17,20 +17,7 @@ function lineRequiresNextIndent(lineStr) {
            (code === 123) || // {
            (code === 58);    // :
 }
-
 exports.activate = function() {
-    console.log(`I am active!`);
-    /*
-    vscode.commands.registerCommand('type', (args) => {
-        var letter = args.text.charCodeAt(0);
-        console.log(`typed`, String.fromCharCode(letter));
-        if (letter === 65) {
-            console.log("blocking A");
-            return;
-        }
-        return vscode.commands.executeCommand('default:type', args);
-    });
-    */
     vscode.commands.registerCommand('tab', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {

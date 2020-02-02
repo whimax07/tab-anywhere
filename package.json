@@ -1,10 +1,14 @@
 {
     "name": "tab-anywhere",
     "publisher": "avasilev",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "engines": {
         "vscode": "^1.31.0"
     },
+    "displayName": "Tab Anywhere",
+    "description": "Performs auto-indent or the current line on tab press, regardless of cursor position within the line",
+    "categories": ["Linters", "Formatters"],
+    "keywords": ["tab", "indent"],
     "main": "extension.js",
     "contributes": {
         "keybindings": [
@@ -20,5 +24,9 @@
     ],
     "devDependencies": {
         "vscode": "^1.1.36"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alxvasilev/tab-anywhere"
     }
 }
