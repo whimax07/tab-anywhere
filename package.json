@@ -1,0 +1,24 @@
+{
+    "name": "tab-anywhere",
+    "publisher": "avasilev",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.31.0"
+    },
+    "main": "extension.js",
+    "contributes": {
+        "keybindings": [
+            {
+                "command": "tab",
+                "key": "tab",
+                "when": "editorTextFocus"
+            }
+        ]
+    },
+    "activationEvents": [
+        "*"
+    ],
+    "devDependencies": {
+        "vscode": "^1.1.36"
+    }
+}
