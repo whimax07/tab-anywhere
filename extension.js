@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 
-function lineRequiresNextIndent(lineStr) {
+function lineRequiresNextIndent(line) {
+    var lineStr = line.text;
     let code;
     let i = lineStr.length-1;
     for (; i >= 0; i--) {
@@ -17,6 +18,16 @@ function lineRequiresNextIndent(lineStr) {
            (code === 123) || // {
            (code === 58);    // :
 }
+function lineRequiresUnindent(line) {
+    if (line.isEmptyOrWhitespace) {
+        return false;
+    }
+    let startChar = line.text.charCodeAt(line.firstNonWhitespaceCharacterIndex);
+    return ((startChar === 41) || // )
+            (startChar === 93) || // ]
+            (startChar === 125)); // }
+}
+
 exports.activate = function() {
     vscode.commands.registerCommand('tab', () => {
         const editor = vscode.window.activeTextEditor;
@@ -37,23 +48,39 @@ exports.activate = function() {
             break;
         }
         if (!prevLine) {
-            vscode.commands.executeCommand('editor.action.indentLines');
             return;
         }
         let prevIndent = prevLine.firstNonWhitespaceCharacterIndex;
-        let currIndent = doc.lineAt(cursorLine).firstNonWhitespaceCharacterIndex;
-        let target = (lineRequiresNextIndent(prevLine.text))
-            ? prevIndent + editor.options.indentSize
-            : prevIndent;
+        let currLine = doc.lineAt(cursorLine);
+        let currIndent = currLine.firstNonWhitespaceCharacterIndex;
+        let target;
+        if (lineRequiresUnindent(currLine)) {
+            if (lineRequiresNextIndent(prevLine)) {
+                target = prevIndent;
+            } else {
+                target = prevIndent - editor.options.indentSize;
+                if (target < 0) {
+                    target = 0;
+                }
+            }
+        }
+        else if (lineRequiresNextIndent(prevLine)) {
+            target = prevIndent + editor.options.indentSize;
+        }
+        else {
+            target = prevIndent;
+        }
+
         let diff = (currIndent - target);
         if (diff === 0) {
-            return;
+            return; // no change
         }
         else if (diff > 0) {
+            // overindented - delete some spaces
             editor.edit(function(builder) {
                 builder.delete(new vscode.Range(cursorLine, 0, cursorLine, diff));
             });
-        } else { // diff is negative - under-indented
+        } else { // under-indented - add some spaces
             editor.edit(function(builder) {
                 builder.insert(new vscode.Position(cursorLine, 0), ' '.repeat(-diff));
             });
