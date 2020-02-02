@@ -50,9 +50,13 @@ exports.activate = function() {
         if (!prevLine) {
             return;
         }
-        let prevIndent = prevLine.firstNonWhitespaceCharacterIndex;
         let currLine = doc.lineAt(cursorLine);
+        if (currLine.isEmptyOrWhitespace) {
+            return;
+        }
         let currIndent = currLine.firstNonWhitespaceCharacterIndex;
+        let prevIndent = prevLine.firstNonWhitespaceCharacterIndex;
+
         let target;
         if (lineRequiresUnindent(currLine)) {
             if (lineRequiresNextIndent(prevLine)) {
