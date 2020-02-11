@@ -82,9 +82,6 @@ exports.activate = function() {
             return;
         }
         let currLine = doc.lineAt(cursorLine);
-        if (currLine.isEmptyOrWhitespace) {
-            return;
-        }
 
         let options = editor.options;
         let indentSize = options.indentSize;
