@@ -69,7 +69,7 @@ exports.activate = function() {
         let currLine = doc.lineAt(cursorLine);
 
         let options = editor.options;
-        let indentSize = options.indentSize;
+        let indentSize = options.indentSize || options.tabSize; // options.indentSize may be undefined
         let tabSize = options.tabSize;
         let insertSpaces = options.insertSpaces;
 

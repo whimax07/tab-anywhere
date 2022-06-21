@@ -1,7 +1,7 @@
 {
     "name": "tab-anywhere",
     "publisher": "avasilev",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "engines": {
         "vscode": "^1.31.0"
     },
@@ -20,7 +20,7 @@
         ]
     },
     "activationEvents": [
-        "*"
+        "onStartupFinished"
     ],
     "devDependencies": {
         "vscode": "^1.1.36"
