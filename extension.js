@@ -21,6 +21,28 @@ function lineRequiresUnindent(line) {
             (startChar === 125)); // }
 }
 
+function moveCaretDown() {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+        const currentPosition = editor.selection.active;
+        const currentLine = currentPosition.line;
+        const currentColumn = currentPosition.character;
+
+        // Check if it's the last line in the document
+        if (currentLine < editor.document.lineCount - 1) {
+            const nextLine = editor.document.lineAt(currentLine + 1);
+            const nextLineLength = nextLine.text.length;
+
+            // Move caret to the next line, preserving the column position
+            const newColumn = Math.min(currentColumn, nextLineLength);
+            const newPosition = new vscode.Position(currentLine + 1, newColumn);
+
+            editor.selection = new vscode.Selection(newPosition, newPosition);
+            editor.revealRange(new vscode.Range(newPosition, newPosition));
+        }
+    }
+}
+
 function leadWsCount(line, tabSize) {
     let result = 0;
     let text = line.text;
@@ -130,6 +152,7 @@ exports.activate = function() {
 
         let diff = (currIndent - target); // diff is always in spaces
         if (diff === 0) {
+            moveCaretDown();
             return; // no change
         }
 
@@ -149,6 +172,7 @@ exports.activate = function() {
                 : '\t'.repeat(Math.floor((-diff) / tabSize)));
             });
         }
+        moveCaretDown();
     } catch(e) {
         console.error("Exception:", e);
     }
