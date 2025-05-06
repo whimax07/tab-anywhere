@@ -9,4 +9,6 @@ This extension sort of complements the  Shift + Tab command, which unindents,
 regardless of the cursor position within the line.
 
 
+How to build the extension: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+
  
