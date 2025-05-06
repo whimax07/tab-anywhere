@@ -1,11 +1,11 @@
 {
-    "name": "tab-anywhere",
+    "name": "tab-anywhere-down",
     "publisher": "avasilev",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "engines": {
         "vscode": "^1.31.0"
     },
-    "displayName": "Tab Anywhere",
+    "displayName": "Tab Anywhere Down",
     "description": "Performs auto-indent or the current line on tab press, regardless of cursor position within the line",
     "categories": ["Linters", "Formatters"],
     "keywords": ["tab", "indent"],
